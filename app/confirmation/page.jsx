@@ -1,77 +1,87 @@
 "use client";
-import React from "react";
 import { CheckCircle } from "lucide-react";
-import { Ban } from 'lucide-react';
+import { useState, useEffect } from "react"
+import { Ban } from 'lucide-react'
 
 const BookingConfirmation = () => {
-  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
-  if(!bookingData){
+  const [bookingData, setBookingData] = useState(null);
+
+  useEffect(() => {
+    // Ensure that code accessing localStorage runs only on the client-side
+    if (typeof window !== "undefined") {
+      const data = localStorage.getItem("bookingData");
+      if (data) {
+        setBookingData(JSON.parse(data));
+      }
+    }
+  }, []);
+  if (!bookingData) {
     return (
-        <div className="container">
-      <div className="confirmation-card">
-        {/* Confirmation Icon */}
-        <div className="icon-container">
-          <Ban className="confirm-icon" />
+      <div className="container">
+        <div className="confirmation-card">
+          {/* Confirmation Icon */}
+          <div className="icon-container">
+            <Ban className="confirm-icon" />
+          </div>
+
+          {/* Heading */}
+          <div className="header">
+            <h2 className="title">No Booking!</h2>
+            <p className="subtitle">
+              Book a reservation to see any reservation.
+            </p>
+          </div>
         </div>
 
-        {/* Heading */}
-        <div className="header">
-          <h2 className="title">No Booking!</h2>
-          <p className="subtitle">
-            Book a reservation to see any reservation.
-          </p>
-        </div>
+        <style jsx>{`
+          .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: rgb(255, 247, 237);
+            padding: 1rem;
+          }
+
+          .confirmation-card {
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 28rem;
+          }
+
+          .icon-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+          }
+
+          .confirm-icon {
+            width: 4rem;
+            height: 4rem;
+            color: red;
+          }
+
+          .header {
+            text-align: center;
+            margin-bottom: 2rem;
+          }
+
+          .title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: rgb(154, 52, 18);
+          }
+
+          .subtitle {
+            color: rgb(75, 85, 99);
+            margin-top: 0.5rem;
+          }
+        `}</style>
       </div>
-
-      <style jsx>{`
-        .container {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 100vh;
-          background-color: rgb(255, 247, 237);
-          padding: 1rem;
-        }
-
-        .confirmation-card {
-          background-color: white;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          border-radius: 0.75rem;
-          padding: 1.5rem;
-          width: 100%;
-          max-width: 28rem;
-        }
-
-        .icon-container {
-          display: flex;
-          justify-content: center;
-          margin-bottom: 1.5rem;
-        }
-
-        .confirm-icon {
-          width: 4rem;
-          height: 4rem;
-          color: red ;
-        }
-
-        .header {
-          text-align: center;
-          margin-bottom: 2rem;
-        }
-
-        .title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: rgb(154, 52, 18);
-        }
-
-        .subtitle {
-          color: rgb(75, 85, 99);
-          margin-top: 0.5rem;
-        }
-      `}</style>
-    </div>
-    )
+    );
   }
   return (
     <div className="container">
@@ -192,7 +202,7 @@ const BookingConfirmation = () => {
         .confirm-icon {
           width: 4rem;
           height: 4rem;
-          color: #22c55e ;
+          color: rgb(34, 197, 94);
         }
 
         .header {
